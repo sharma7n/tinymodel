@@ -11,4 +11,8 @@ setup(name='tinymodel',
     install_requires=[
         'tinydb',
     ],
+    test_suite='nose.collector',
+    tests_require=[
+        'nose'
+    ],
     zip_safe=False)

@@ -19,7 +19,7 @@ def tinymodel(modelclass):
         @classmethod
         def fromdict(cls, dict_):
             """ Deserializes object from a Python dictionary. """
-            pass
+            return cls(**dict_)
     
     TinyModel.__name__ = modelclass.__name__
     TinyModel.__doc__ = modelclass.__name__
@@ -27,9 +27,10 @@ def tinymodel(modelclass):
 
 db = None
 def connect(path):
-    """ Instantiates the module-level TinyDB instance. """
+    """ Instantiates and returns the module-level TinyDB instance. """
     global db
     db = TinyDB(path)
+    return db
 
 def save(tinyobj):
     """
