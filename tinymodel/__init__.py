@@ -1,14 +1,14 @@
 from tinydb import TinyDB, Query
 
 
-def tinymodel(modelclass):
+def model(modelclass):
     """ 
         Class decorator granting tinymodel API compatibility.
         Only classes that have pure **kwargs constructors are supported.
     """
     
     class TinyModel(modelclass):
-        """ Subclass of cls with dict serialization and deserialization methods. """
+        """ Mixin with dict serialization and deserialization methods. """
         
         is_tinymodel = True
         
@@ -22,7 +22,7 @@ def tinymodel(modelclass):
             return cls(**dict_)
     
     TinyModel.__name__ = modelclass.__name__
-    TinyModel.__doc__ = modelclass.__name__
+    TinyModel.__doc__ = modelclass.__doc__
     return TinyModel
 
 db = None
@@ -41,13 +41,13 @@ def save(tinyobj):
         A unique field on the object is used to determine whether to insert or update.
         If the unique field name is not provided by the caller, the field 'key' is used.
     """
-    
+    global db
     if not tinyobj.__class__.is_tinymodel:
         raise ValueError("{} of class {} is not a TinyModel class. Please decorate it with @tinymodel.tinymodel".format(tinyobj, tinyobj.__class__.__name__))
-    
+
     table = db.table(tinyobj.__class__.__name__)
     key = getattr(tinyobj, 'key_field', None)
-    
+
     if key:
         res = table.search(Query()[key] == getattr(tinyobj, key))
         if len(res) > 0:
