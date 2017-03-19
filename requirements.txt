@@ -1,5 +1,9 @@
 appdirs==1.4.3
+nose==1.3.7
 packaging==16.8
+py==1.4.33
 pyparsing==2.2.0
+pytest==3.0.7
 six==1.10.0
 tinydb==3.2.2
+tinymodel==0.1
