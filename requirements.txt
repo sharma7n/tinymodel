@@ -6,4 +6,3 @@ pyparsing==2.2.0
 pytest==3.0.7
 six==1.10.0
 tinydb==3.2.2
-tinymodel==0.1
