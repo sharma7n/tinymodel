@@ -1,5 +1,7 @@
 # tinymodel
 ![Travis CI](https://travis-ci.org/sharma7n/tinymodel.svg?branch=master)
+[![Documentation Status](https://readthedocs.org/projects/tinymodel/badge/?version=latest)](http://tinymodel.readthedocs.io/en/latest/?badge=latest)
+
 
 A wrapper around TinyDB for easy JSON serialization and deserialization.
 
