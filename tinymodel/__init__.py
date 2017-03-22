@@ -40,18 +40,22 @@ def save(tinyobj):
         
         A unique field on the object is used to determine whether to insert or update.
         If the unique field name is not provided by the caller, the field 'key' is used.
+        If no key field exists, then the id of the object is used.
     """
+    
     global db
     if not tinyobj.__class__.is_tinymodel:
         raise ValueError("{} of class {} is not a TinyModel class. Please decorate it with @tinymodel.tinymodel".format(tinyobj, tinyobj.__class__.__name__))
 
     table = db.table(tinyobj.__class__.__name__)
-    key = getattr(tinyobj, 'key_field', None)
+    key_field = getattr(tinyobj.__class__, 'key_field', 'key')
+    key = getattr(tinyobj, key_field, id(tinyobj))
 
     if key:
-        res = table.search(Query()[key] == getattr(tinyobj, key))
+        res = table.search(Query()[key_field] == key)
         if len(res) > 0:
-            table.update(tinyobj.asdict(), Query()[key] == getattr(tinyobj, key))
+            table.update(tinyobj.asdict(), Query()[key_field] == key)
+            print(table.all())
         else:
             table.insert(tinyobj.asdict())
     else:
@@ -66,6 +70,7 @@ def load(tinyclass, *, where=None, empty_callback=None):
         :empty_callback: performed if no instances are found.
     """
     
+    global db
     table = db.table(tinyclass.__name__)
     
     if not where:

@@ -1,24 +1,5 @@
-from tinydb import TinyDB, Query
-
 from tinymodel import *
-
-
-db = connect("tests/test.json")
-    
-def rollback(test_func):
-    """ 
-        Simple decorator that cleans the passed-in database at the end.
-        Ensures that each unit test is independent.
-    """
-    
-    def with_rollback(*args, **kwargs):
-        global db
-        try:
-            test_func(*args, **kwargs)
-        finally:
-            db.purge_tables()
-            db.purge()
-    return with_rollback
+from .utils import *
 
 @model
 class TinyClass:
@@ -65,9 +46,4 @@ def test_load():
     table.insert(obj.asdict())
     res = list(load(TinyClass))
     assert len(res) > 0
-    print(obj)
-    print(res[0])
-    print(obj.code, obj.attrib)
-    print(res[0].code, res[0].attrib)
-    print(obj.__eq__(res[0]))
     assert obj == res[0]
