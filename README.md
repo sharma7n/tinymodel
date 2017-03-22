@@ -23,3 +23,9 @@ class MyClass:
 >>    print(o.foo)
 False
 ```
+
+# Installation
+
+```bash
+pip install tinymodel
+```
